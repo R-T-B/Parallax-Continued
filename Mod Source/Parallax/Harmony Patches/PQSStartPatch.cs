@@ -1,10 +1,12 @@
 ﻿using HarmonyLib;
+using Kopernicus;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using static Parallax.Legacy.LegacyScatterConfigLoader;
 using static Parallax.PQSStartPatch;
 
 namespace Parallax
@@ -45,6 +47,41 @@ namespace Parallax
                 onPQSUnload?.Invoke(currentLoadedBody);
                 onPQSStart?.Invoke(__instance.name);
                 currentLoadedBody = __instance.name;
+
+                //Do rescale PQS scaling if SigDim is present
+                UrlDir.UrlConfig sigDimConfig = ConfigLoader.GetConfigByName("SigmaDimensions");
+
+                if (sigDimConfig == null)
+                {
+                    return true;
+                }
+
+                CelestialBody cb = FlightGlobals.GetBodyByName(__instance.name);
+                float resizeValue = (float)cb.Get<double>("resize");
+                float pqsRaiseAmountFloat = 0;
+                if (resizeValue > 1)
+                {
+                    pqsRaiseAmountFloat = Mathf.Log(resizeValue, 2);
+                }
+                else
+                {
+                    float resizeValueInverted = (1 / resizeValue);
+                    pqsRaiseAmountFloat = Mathf.Log(resizeValueInverted, 2) * (-1);
+                }
+                int pqsRaiseAmountInteger = (int)Mathf.Round(pqsRaiseAmountFloat);
+                if (PQSCache.PresetList != null)
+                {
+                    foreach (PQSCache.PQSPreset rawPreset in PQSCache.PresetList.presets)
+                    {
+                        foreach (PQSCache.PQSSpherePreset preset in rawPreset.spherePresets)
+                        {
+                            if (preset.name.Contains(__instance.name))
+                            {
+                                preset.maxSubdivision += pqsRaiseAmountInteger;
+                            }
+                        }
+                    }
+                }
             }
             return true;
         }
