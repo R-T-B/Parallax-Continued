@@ -123,10 +123,10 @@ namespace Parallax.LateCompatibility
                         scatter.distributionParams.populationMultiplier = (int)Math.Round(scatter.distributionParams.populationMultiplier * pqsPopulationMult);
                         scatter.distributionParams.populationMultiplier = Mathf.Max(scatter.distributionParams.populationMultiplier, 1);
 
-                        scatter.distributionParams.spawnChance = scatter.distributionParams.spawnChance * pqsPopulationMult;
+                        scatter.distributionParams.spawnChance *= pqsPopulationMult;
 
                         // Adjust distribution noise frequency
-                        scatter.noiseParams.frequency = scatter.noiseParams.frequency * pqsPopulationMult;
+                        scatter.noiseParams.frequency *= pqsPopulationMult;
                     }
             }
         }
