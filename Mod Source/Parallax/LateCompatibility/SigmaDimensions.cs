@@ -126,7 +126,7 @@ namespace Parallax.LateCompatibility
                         scatter.distributionParams.spawnChance *= pqsPopulationMult;
 
                         // Adjust distribution noise frequency
-                        scatter.noiseParams.frequency *= pqsPopulationMult;
+                        scatter.noiseParams.frequency *= resizeValue;
                     }
             }
         }
