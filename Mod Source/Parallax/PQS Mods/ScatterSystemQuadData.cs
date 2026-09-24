@@ -257,7 +257,6 @@ namespace Parallax
                     }
                     ScatterData data = new ScatterData(this, body.fastScatters[i]);
 
-
                     if (blockedScatterNames != null && blockedScatterNames.Contains(scatter.scatterName))
                     {
                         // Set up the block map data

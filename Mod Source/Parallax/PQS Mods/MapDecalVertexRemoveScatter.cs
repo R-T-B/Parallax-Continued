@@ -28,8 +28,8 @@ namespace Parallax.PQS_Mods
         public Texture2D colorMapT2D = null;
         public MapSO debugColorMap;
         public bool debugShowDecal;
-        public double inclusionAngle;
-        public bool quadActive;
+        private double inclusionAngle;
+        private bool quadActive;
         public Vector3d normalisedPosition;
         private double quadAngle;
         private float maskValue;
