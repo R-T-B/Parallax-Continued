@@ -1,9 +1,6 @@
 ﻿using Kopernicus;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Parallax.LateCompatibility
@@ -126,7 +123,7 @@ namespace Parallax.LateCompatibility
                         scatter.distributionParams.spawnChance *= pqsPopulationMult;
 
                         // Adjust distribution noise frequency
-                        scatter.noiseParams.frequency *= pqsPopulationMult;
+                        scatter.noiseParams.frequency *= resizeValue;
                     }
             }
         }

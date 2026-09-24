@@ -7,9 +7,9 @@
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <DebugSymbols>true</DebugSymbols>
-        <DebugType>portable</DebugType>
+        <DebugType>none</DebugType>
         <Optimize>false</Optimize>
-        <GameDataPath>C:\Program Files (x86)\Steam\steamapps\common\Kerbal Space Program\GameData\</GameDataPath>
+        <GameDataPath>C:\Program Files\Kerbal Space Program\GameData\</GameDataPath>
         <OutDir>$(GameDataPath)$(AssemblyName)\Plugins\</OutDir>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
@@ -19,9 +19,9 @@
       </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       <DebugSymbols>true</DebugSymbols>
-      <DebugType>portable</DebugType>
+      <DebugType>none</DebugType>
       <Optimize>false</Optimize>
-      <GameDataPath>C:\Program Files (x86)\Steam\steamapps\common\Kerbal Space Program\GameData\</GameDataPath>
+      <GameDataPath>C:\Program Files\Kerbal Space Program\GameData\</GameDataPath>
       <OutDir>$(GameDataPath)$(AssemblyName)\Plugins\</OutDir>
       <ErrorReport>prompt</ErrorReport>
       <WarningLevel>4</WarningLevel>
@@ -31,9 +31,9 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
       <DebugSymbols>true</DebugSymbols>
-      <DebugType>portable</DebugType>
+      <DebugType>none</DebugType>
       <Optimize>false</Optimize>
-      <GameDataPath>C:\Program Files (x86)\Steam\steamapps\common\Kerbal Space Program\GameData\</GameDataPath>
+      <GameDataPath>C:\Program Files\Kerbal Space Program\GameData\</GameDataPath>
       <OutDir>$(GameDataPath)$(AssemblyName)\Plugins\</OutDir>
       <ErrorReport>prompt</ErrorReport>
       <WarningLevel>4</WarningLevel>
@@ -42,9 +42,9 @@
       <DefineConstants>TRACE;DEBUG;ENABLE_PROFILER</DefineConstants>
     </PropertyGroup>
       <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-        <DebugType>pdbonly</DebugType>
+        <DebugType>none</DebugType>
         <Optimize>true</Optimize>
-        <GameDataPath>C:\Program Files (x86)\Steam\steamapps\common\Kerbal Space Program\GameData\</GameDataPath>
+        <GameDataPath>C:\Program Files\Kerbal Space Program\GameData\</GameDataPath>
         <OutDir>$(GameDataPath)$(AssemblyName)\Plugins\</OutDir>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
@@ -52,9 +52,9 @@
         <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
       </PropertyGroup>
       <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-        <DebugType>pdbonly</DebugType>
+        <DebugType>none</DebugType>
         <Optimize>true</Optimize>
-        <GameDataPath>C:\Program Files (x86)\Steam\steamapps\common\Kerbal Space Program\GameData\</GameDataPath>
+        <GameDataPath>C:\Program Files\Kerbal Space Program\GameData\</GameDataPath>
         <OutDir>$(GameDataPath)$(AssemblyName)\Plugins\</OutDir>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
@@ -62,9 +62,9 @@
         <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
       </PropertyGroup>
       <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
-        <DebugType>pdbonly</DebugType>
+        <DebugType>none</DebugType>
         <Optimize>true</Optimize>
-        <GameDataPath>C:\Program Files (x86)\Steam\steamapps\common\Kerbal Space Program\GameData\</GameDataPath>
+        <GameDataPath>C:\Program Files\Kerbal Space Program\GameData\</GameDataPath>
         <OutDir>$(GameDataPath)$(AssemblyName)\Plugins\</OutDir>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
