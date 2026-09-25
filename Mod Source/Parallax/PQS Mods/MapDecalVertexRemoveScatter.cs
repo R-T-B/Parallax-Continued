@@ -50,7 +50,7 @@ namespace Parallax.PQS_Mods
         {
             if (lockToKSC)
             {
-                position = SpaceCenter.Instance.srfNVector;
+                position = SpaceCenter.Instance.SrfNVector;
                 normalisedPosition = position.normalized;
                 inclusionAngle = Math.Atan(radius / sphere.radius) * 4.0;
                 rot = Quaternion.AngleAxis(angle, Vector3.up) * Quaternion.FromToRotation(normalisedPosition, Vector3.up);
@@ -67,7 +67,7 @@ namespace Parallax.PQS_Mods
 
             if (lockToKSC)
             {
-                position = SpaceCenter.Instance.srfNVector;
+                position = SpaceCenter.Instance.SrfNVector;
             }
             else if (position.Equals(Vector3.zero))
             {
@@ -145,7 +145,6 @@ namespace Parallax.PQS_Mods
                 }
                 maskValue = debugColorMap.GetPixelColor(u, v).g;
                 vertexBuildData.vertColor = maskValue > 0.01f ? Color.green : Color.red;
-                vertexBuildData.allowScatter = maskValue > 0.01f ? true : false;
             }
         }
 
