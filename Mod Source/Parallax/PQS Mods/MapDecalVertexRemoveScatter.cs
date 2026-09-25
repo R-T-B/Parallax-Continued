@@ -46,7 +46,7 @@ namespace Parallax.PQS_Mods
             vertRot = Vector3.forward;
         }
 
-        private void Awake()
+        private void Start()
         {
             if (lockToKSC)
             {
