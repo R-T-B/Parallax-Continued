@@ -1,5 +1,8 @@
 ﻿using HarmonyLib;
 using Kopernicus;
+using Parallax.LateCompatibility;
+using PreFlightTests;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -41,37 +44,60 @@ namespace Parallax.Harmony_Patches
                 onPQSUnload?.Invoke(currentLoadedBody);
                 onPQSStart?.Invoke(__instance.name);
                 currentLoadedBody = __instance.name;
+                UrlDir.UrlConfig sigDimConfigEntry = ConfigLoader.GetConfigByName("SigmaDimensions");
 
-                //Do rescale PQS scaling if SigDim is present
-                UrlDir.UrlConfig sigDimConfig = ConfigLoader.GetConfigByName("SigmaDimensions");
-
-                if (sigDimConfig == null)
+                if (sigDimConfigEntry == null)
                 {
                     return true;
                 }
-
-                CelestialBody cb = FlightGlobals.GetBodyByName(__instance.name);
-                float resizeValue = (float)cb.Get<double>("resize");
-                float pqsRaiseAmountFloat = 0;
-                if (resizeValue > 1)
-                {
-                    pqsRaiseAmountFloat = Mathf.Log(resizeValue, 2);
-                }
                 else
                 {
-                    float resizeValueInverted = (1 / resizeValue);
-                    pqsRaiseAmountFloat = Mathf.Log(resizeValueInverted, 2) * (-1);
-                }
-                int pqsRaiseAmountInteger = (int)Mathf.Round(pqsRaiseAmountFloat);
-                if (PQSCache.PresetList != null)
-                {
-                    foreach (PQSCache.PQSPreset rawPreset in PQSCache.PresetList.presets)
+                    int pqsRaiseAmountInteger = 0;
+                    //validate that zero with SigDim is correct, correct value if we ran too early
+                    CelestialBody cb = FlightGlobals.GetBodyByName(__instance.name);
+                    float resizeValue = (float)cb.Get<double>("resize");
+                    float pqsRaiseAmountFloat = 0;
+                    if (resizeValue > 1)
                     {
-                        foreach (PQSCache.PQSSpherePreset preset in rawPreset.spherePresets)
+                        pqsRaiseAmountFloat = Mathf.Log(resizeValue, 2);
+                        pqsRaiseAmountInteger = (int)Mathf.Round(pqsRaiseAmountFloat);
+                    }
+                    else
+                    {
+                        float resizeValueInverted = (1 / resizeValue);
+                        pqsRaiseAmountFloat = Mathf.Log(resizeValueInverted, 2) * (-1);
+                        pqsRaiseAmountInteger = (int)Mathf.Round(pqsRaiseAmountFloat);
+                    }
+
+                    //If its null we must build it.  This should only ever happen once.
+                    if (SigmaDimensionsDataHolder.defaultPresetDictionary == null)
+                    {
+                        SigmaDimensionsDataHolder.defaultPresetDictionary = new Dictionary<string, int>();
+                        foreach (PQSCache.PQSPreset rawPresets in PQSCache.PresetList.presets)
                         {
-                            if (preset.name.Contains(__instance.name))
+                            foreach (PQSCache.PQSSpherePreset preset in rawPresets.spherePresets)
                             {
-                                preset.maxSubdivision += pqsRaiseAmountInteger;
+                                if (!SigmaDimensionsDataHolder.defaultPresetDictionary.ContainsKey(preset.name))
+                                {
+                                    SigmaDimensionsDataHolder.defaultPresetDictionary.Add(preset.name, preset.maxSubdivision);
+                                }
+                                else if (preset.maxSubdivision > SigmaDimensionsDataHolder.defaultPresetDictionary[preset.name])
+                                {
+                                    SigmaDimensionsDataHolder.defaultPresetDictionary[preset.name] = preset.maxSubdivision;
+                                }
+                            }
+                        }
+                    }
+                    if (SigmaDimensionsDataHolder.defaultPresetDictionary != null)
+                    {
+                        foreach (PQSCache.PQSPreset rawPresets in PQSCache.PresetList.presets)
+                        {
+                            foreach (PQSCache.PQSSpherePreset preset in rawPresets.spherePresets)
+                            {
+                                if (preset.name.Contains(__instance.name))
+                                {
+                                    preset.maxSubdivision = SigmaDimensionsDataHolder.defaultPresetDictionary[__instance.name] + pqsRaiseAmountInteger;
+                                }
                             }
                         }
                     }

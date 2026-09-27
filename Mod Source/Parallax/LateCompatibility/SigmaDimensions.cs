@@ -10,12 +10,13 @@ namespace Parallax.LateCompatibility
     /// </summary>
 
     [KSPAddon(KSPAddon.Startup.MainMenu, true)]
-    class LateCompatibility : MonoBehaviour
+    public class SigmaDimensions : MonoBehaviour
     {
         public void Start()
         {
             RunCompatibility_SigmaDimensions();
         }
+
         public void RunCompatibility_SigmaDimensions()
         {
             UrlDir.UrlConfig sigDimConfig = ConfigLoader.GetConfigByName("SigmaDimensions");
@@ -112,19 +113,19 @@ namespace Parallax.LateCompatibility
                     pqsPopulationMult = ((Mathf.Abs(pqsRaiseAmountFloat - (pqsRaiseAmountInteger - 1))) * (-1)) + 2 ;
                 }
                 foreach (Scatter scatter in scatterBody.fastScatters)
-                    {
-                        scatter.distributionParams.minAltitude *= resizeValue * landscapeValue;
-                        scatter.distributionParams.maxAltitude *= resizeValue * landscapeValue;
+                {
+                    scatter.distributionParams.minAltitude *= resizeValue * landscapeValue;
+                    scatter.distributionParams.maxAltitude *= resizeValue * landscapeValue;
 
-                        // Now scale density appropriately
-                        scatter.distributionParams.populationMultiplier = (int)Math.Round(scatter.distributionParams.populationMultiplier * pqsPopulationMult);
-                        scatter.distributionParams.populationMultiplier = Mathf.Max(scatter.distributionParams.populationMultiplier, 1);
+                    // Now scale density appropriately
+                    scatter.distributionParams.populationMultiplier = (int)Math.Round(scatter.distributionParams.populationMultiplier * pqsPopulationMult);
+                    scatter.distributionParams.populationMultiplier = Mathf.Max(scatter.distributionParams.populationMultiplier, 1);
 
-                        scatter.distributionParams.spawnChance *= pqsPopulationMult;
+                    scatter.distributionParams.spawnChance *= pqsPopulationMult;
 
-                        // Adjust distribution noise frequency
-                        scatter.noiseParams.frequency *= resizeValue;
-                    }
+                    // Adjust distribution noise frequency
+                    scatter.noiseParams.frequency *= resizeValue;
+                }
             }
         }
     }
