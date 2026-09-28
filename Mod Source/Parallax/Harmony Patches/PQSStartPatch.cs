@@ -3,6 +3,7 @@ using Kopernicus;
 using Parallax.LateCompatibility;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameParameters;
 
 namespace Parallax.Harmony_Patches
 {
@@ -90,9 +91,16 @@ namespace Parallax.Harmony_Patches
                     {
                         foreach (PQSCache.PQSPreset rawPresets in PQSCache.PresetList.presets)
                         {
-                            foreach (PQSCache.PQSSpherePreset preset in rawPresets.spherePresets)
+                            if (rawPresets.spherePresets[0].maxSubdivision != SigmaDimensionsDataHolder.defaultPresetDictionary[rawPresets.spherePresets[0].name] + pqsRaiseAmountInteger)
                             {
-                                preset.maxSubdivision = SigmaDimensionsDataHolder.defaultPresetDictionary[preset.name] + pqsRaiseAmountInteger;
+                                foreach (PQSCache.PQSSpherePreset preset in rawPresets.spherePresets)
+                                {
+                                    preset.maxSubdivision = SigmaDimensionsDataHolder.defaultPresetDictionary[preset.name] + pqsRaiseAmountInteger;
+                                }
+                            }
+                            else
+                            {
+                                return true;
                             }
                         }
                     }
