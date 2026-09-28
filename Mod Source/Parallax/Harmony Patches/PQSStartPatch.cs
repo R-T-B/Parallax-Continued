@@ -92,10 +92,7 @@ namespace Parallax.Harmony_Patches
                         {
                             foreach (PQSCache.PQSSpherePreset preset in rawPresets.spherePresets)
                             {
-                                if (preset.name.Contains(__instance.name))
-                                {
-                                    preset.maxSubdivision = SigmaDimensionsDataHolder.defaultPresetDictionary[__instance.name] + pqsRaiseAmountInteger;
-                                }
+                                preset.maxSubdivision = SigmaDimensionsDataHolder.defaultPresetDictionary[preset.name] + pqsRaiseAmountInteger;
                             }
                         }
                     }
