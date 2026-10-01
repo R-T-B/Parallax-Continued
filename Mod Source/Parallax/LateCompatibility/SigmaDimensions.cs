@@ -101,10 +101,10 @@ namespace Parallax.LateCompatibility
                 float pqsPopulationMult = 0;
                 if (resizeValue > 1.1)
                 {
-                    pqsRaiseAmountFloat = Mathf.Log(resizeValue, 2);
+                    pqsRaiseAmountFloat = Mathf.Log(resizeValue, 2f);
                     int pqsRaiseAmountInteger = (int)Mathf.Round(pqsRaiseAmountFloat);
-                    int pqsRaiseAmountIntegerCapped = Math.Min(pqsRaiseAmountInteger, 1);
-                    int pqsPopulationMultCorrectionFromCappingMult = Math.Abs(pqsRaiseAmountInteger - pqsRaiseAmountIntegerCapped);
+                    int pqsRaiseAmountIntegerCapped = Math.Min(SigmaDimensionsDataHolder.defaultPresetDictionary[cb.name] + pqsRaiseAmountInteger, 10);
+                    int pqsPopulationMultCorrectionFromCappingMult = (SigmaDimensionsDataHolder.defaultPresetDictionary[cb.name] + pqsRaiseAmountInteger) - pqsRaiseAmountIntegerCapped;
                     if (pqsPopulationMultCorrectionFromCappingMult != 0)
                     {
                         pqsPopulationMult = (Mathf.Abs(pqsRaiseAmountFloat - (pqsRaiseAmountInteger - 1))) * (2 * pqsPopulationMultCorrectionFromCappingMult);
@@ -117,7 +117,7 @@ namespace Parallax.LateCompatibility
                 else if (resizeValue < 0.9)
                 {
                     float resizeValueInverted = (1f / resizeValue);
-                    pqsRaiseAmountFloat = Mathf.Log(resizeValueInverted, 2) * (-1f);
+                    pqsRaiseAmountFloat = Mathf.Log(resizeValueInverted, 2f) * (-1f);
                     int pqsRaiseAmountInteger = (int)Mathf.Round(pqsRaiseAmountFloat);
                     pqsPopulationMult = 1f / (2f * Mathf.Abs(pqsRaiseAmountInteger));
                 }

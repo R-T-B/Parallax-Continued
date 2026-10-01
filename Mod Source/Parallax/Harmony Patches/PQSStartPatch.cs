@@ -4,7 +4,6 @@ using Parallax.LateCompatibility;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static GameParameters;
 
 namespace Parallax.Harmony_Patches
 {
@@ -57,19 +56,6 @@ namespace Parallax.Harmony_Patches
                     CelestialBody cb = FlightGlobals.GetBodyByName(__instance.name);
                     float resizeValue = (float)cb.Get<double>("resize");
                     float pqsRaiseAmountFloat = 0;
-                    if (resizeValue > 1.1)
-                    {
-                        pqsRaiseAmountFloat = Mathf.Log(resizeValue, 2);
-                        int pqsRaiseAmountInteger = (int)Mathf.Round(pqsRaiseAmountFloat);
-                        pqsRaiseAmountIntegerCapped = Math.Min(pqsRaiseAmountInteger, 1);
-                    }
-                    else if (resizeValue < 0.9)
-                    {
-                        float resizeValueInverted = (1 / resizeValue);
-                        pqsRaiseAmountFloat = Mathf.Log(resizeValueInverted, 2) * (-1);
-                        int pqsRaiseAmountInteger = (int)Mathf.Round(pqsRaiseAmountFloat);
-                        pqsRaiseAmountIntegerCapped = Math.Min(pqsRaiseAmountInteger, 1);
-                    }
 
                     //If its null we must build it.  This should only ever happen once.
                     if (SigmaDimensionsDataHolder.defaultPresetDictionary == null)
@@ -92,6 +78,22 @@ namespace Parallax.Harmony_Patches
                     }
                     if (SigmaDimensionsDataHolder.defaultPresetDictionary != null)
                     {
+                        if (resizeValue > 1.1)
+                        {
+                            pqsRaiseAmountFloat = Mathf.Log(resizeValue, 2f);
+                            int pqsRaiseAmountInteger = (int)Mathf.Round(pqsRaiseAmountFloat);
+                            pqsRaiseAmountIntegerCapped = Math.Min(SigmaDimensionsDataHolder.defaultPresetDictionary[cb.name] + pqsRaiseAmountInteger, 10);
+                            if (pqsRaiseAmountIntegerCapped >= 10)
+                            {
+                                pqsRaiseAmountIntegerCapped -= 10;
+                            }
+                        }
+                        else if (resizeValue < 0.9)
+                        {
+                            float resizeValueInverted = (1f / resizeValue);
+                            pqsRaiseAmountFloat = Mathf.Log(resizeValueInverted, 2f) * (-1f);
+                            pqsRaiseAmountIntegerCapped = (int)Mathf.Round(pqsRaiseAmountFloat);
+                        }
                         foreach (PQSCache.PQSPreset rawPresets in PQSCache.PresetList.presets)
                         {
                             if (rawPresets.spherePresets[0].maxSubdivision != SigmaDimensionsDataHolder.defaultPresetDictionary[rawPresets.spherePresets[0].name] + pqsRaiseAmountIntegerCapped)
