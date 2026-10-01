@@ -99,18 +99,32 @@ namespace Parallax.LateCompatibility
                 float landscapeValue = (float)cb.Get<double>("landscape");
                 float pqsRaiseAmountFloat = 0;
                 float pqsPopulationMult = 0;
-                if (resizeValue > 1)
+                if (resizeValue > 1.1)
                 {
                     pqsRaiseAmountFloat = Mathf.Log(resizeValue, 2);
                     int pqsRaiseAmountInteger = (int)Mathf.Round(pqsRaiseAmountFloat);
-                    pqsPopulationMult = Mathf.Abs(pqsRaiseAmountFloat - (pqsRaiseAmountInteger - 1));
+                    int pqsRaiseAmountIntegerCapped = Math.Min(pqsRaiseAmountInteger, 1);
+                    int pqsPopulationMultCorrectionFromCappingMult = Math.Abs(pqsRaiseAmountInteger - pqsRaiseAmountIntegerCapped);
+                    if (pqsPopulationMultCorrectionFromCappingMult != 0)
+                    {
+                        pqsPopulationMult = (Mathf.Abs(pqsRaiseAmountFloat - (pqsRaiseAmountInteger - 1))) * (2 * pqsPopulationMultCorrectionFromCappingMult);
+                    }
+                    else
+                    {
+                        pqsPopulationMult = Mathf.Abs(pqsRaiseAmountFloat - (pqsRaiseAmountInteger - 1));
+                    }
                 }
-                else
+                else if (resizeValue < 0.9)
                 {
-                    float resizeValueInverted = (1 / resizeValue);
-                    pqsRaiseAmountFloat = Mathf.Log(resizeValueInverted, 2) * (-1);
+                    float resizeValueInverted = (1f / resizeValue);
+                    pqsRaiseAmountFloat = Mathf.Log(resizeValueInverted, 2) * (-1f);
                     int pqsRaiseAmountInteger = (int)Mathf.Round(pqsRaiseAmountFloat);
-                    pqsPopulationMult = ((Mathf.Abs(pqsRaiseAmountFloat - (pqsRaiseAmountInteger - 1))) * (-1)) + 2 ;
+                    pqsPopulationMult = 1f / (2f * Mathf.Abs(pqsRaiseAmountInteger));
+                }
+                else if (resizeValue >= 0.9 && resizeValue <= 1.1)
+                {
+                    //stupid value catch, just don't
+                    pqsPopulationMult = 1;
                 }
                 foreach (Scatter scatter in scatterBody.fastScatters)
                 {
@@ -124,7 +138,7 @@ namespace Parallax.LateCompatibility
                     scatter.distributionParams.spawnChance *= pqsPopulationMult;
 
                     // Adjust distribution noise frequency
-                    scatter.noiseParams.frequency *= resizeValue;
+                    scatter.noiseParams.frequency *= pqsPopulationMult;
                 }
             }
         }
