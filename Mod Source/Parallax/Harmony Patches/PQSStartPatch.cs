@@ -51,7 +51,7 @@ namespace Parallax.Harmony_Patches
                 }
                 else
                 {
-                    int pqsRaiseAmountIntegerCapped = 0;
+                    int pqsRaiseAmountInteger = 0;
                     //validate that zero with SigDim is correct, correct value if we ran too early
                     CelestialBody cb = FlightGlobals.GetBodyByName(__instance.name);
                     float resizeValue = (float)cb.Get<double>("resize");
@@ -81,26 +81,21 @@ namespace Parallax.Harmony_Patches
                         if (resizeValue > 1.1)
                         {
                             pqsRaiseAmountFloat = Mathf.Log(resizeValue, 2f);
-                            int pqsRaiseAmountInteger = (int)Mathf.Round(pqsRaiseAmountFloat);
-                            pqsRaiseAmountIntegerCapped = Math.Min(SigmaDimensionsDataHolder.defaultPresetDictionary[cb.name] + pqsRaiseAmountInteger, 10);
-                            if (pqsRaiseAmountIntegerCapped >= 10)
-                            {
-                                pqsRaiseAmountIntegerCapped -= 10;
-                            }
+                            pqsRaiseAmountInteger = (int)Mathf.Round(pqsRaiseAmountFloat);
                         }
                         else if (resizeValue < 0.9)
                         {
                             float resizeValueInverted = (1f / resizeValue);
                             pqsRaiseAmountFloat = Mathf.Log(resizeValueInverted, 2f) * (-1f);
-                            pqsRaiseAmountIntegerCapped = (int)Mathf.Round(pqsRaiseAmountFloat);
+                            pqsRaiseAmountInteger = (int)Mathf.Round(pqsRaiseAmountFloat);
                         }
                         foreach (PQSCache.PQSPreset rawPresets in PQSCache.PresetList.presets)
                         {
-                            if (rawPresets.spherePresets[0].maxSubdivision != SigmaDimensionsDataHolder.defaultPresetDictionary[rawPresets.spherePresets[0].name] + pqsRaiseAmountIntegerCapped)
+                            if (rawPresets.spherePresets[0].maxSubdivision != SigmaDimensionsDataHolder.defaultPresetDictionary[rawPresets.spherePresets[0].name] + pqsRaiseAmountInteger)
                             {
                                 foreach (PQSCache.PQSSpherePreset preset in rawPresets.spherePresets)
                                 {
-                                    preset.maxSubdivision = SigmaDimensionsDataHolder.defaultPresetDictionary[preset.name] + pqsRaiseAmountIntegerCapped;
+                                    preset.maxSubdivision = SigmaDimensionsDataHolder.defaultPresetDictionary[preset.name] + pqsRaiseAmountInteger;
                                 }
                             }
                             else

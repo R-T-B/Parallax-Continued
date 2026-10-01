@@ -103,16 +103,7 @@ namespace Parallax.LateCompatibility
                 {
                     pqsRaiseAmountFloat = Mathf.Log(resizeValue, 2f);
                     int pqsRaiseAmountInteger = (int)Mathf.Round(pqsRaiseAmountFloat);
-                    int pqsRaiseAmountIntegerCapped = Math.Min(SigmaDimensionsDataHolder.defaultPresetDictionary[cb.name] + pqsRaiseAmountInteger, 10);
-                    int pqsPopulationMultCorrectionFromCappingMult = (SigmaDimensionsDataHolder.defaultPresetDictionary[cb.name] + pqsRaiseAmountInteger) - pqsRaiseAmountIntegerCapped;
-                    if (pqsPopulationMultCorrectionFromCappingMult != 0)
-                    {
-                        pqsPopulationMult = (Mathf.Abs(pqsRaiseAmountFloat - (pqsRaiseAmountInteger - 1))) * (2 * pqsPopulationMultCorrectionFromCappingMult);
-                    }
-                    else
-                    {
-                        pqsPopulationMult = Mathf.Abs(pqsRaiseAmountFloat - (pqsRaiseAmountInteger - 1));
-                    }
+                    pqsPopulationMult = Mathf.Abs(pqsRaiseAmountFloat - (pqsRaiseAmountInteger - 1));
                 }
                 else if (resizeValue < 0.9)
                 {
