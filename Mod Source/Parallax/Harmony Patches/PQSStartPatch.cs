@@ -78,12 +78,12 @@ namespace Parallax.Harmony_Patches
                     }
                     if (SigmaDimensionsDataHolder.defaultPresetMaxLevelDictionary != null)
                     {
-                        if (resizeValue > 1.1)
+                        if (resizeValue >= 1)
                         {
-                            pqsRaiseAmountFloat = Mathf.Log(resizeValue, 2f);
+                            pqsRaiseAmountFloat = Mathf.Max(Mathf.Log(resizeValue, 2f), 1);
                             pqsRaiseAmountInteger = (int)Mathf.Round(pqsRaiseAmountFloat);
                         }
-                        else if (resizeValue < 0.9)
+                        else if (resizeValue < 1)
                         {
                             float resizeValueInverted = (1f / resizeValue);
                             pqsRaiseAmountFloat = Mathf.Log(resizeValueInverted, 2f) * (-1f);
