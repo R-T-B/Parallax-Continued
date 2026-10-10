@@ -99,17 +99,18 @@ namespace Parallax.LateCompatibility
                 float landscapeValue = (float)cb.Get<double>("landscape");
                 float pqsRaiseAmountFloat = 0;
                 float pqsPopulationMult = 0;
+                int pqsRaiseAmountInteger = 0;
                 if (resizeValue >= 1)
                 {
                     pqsRaiseAmountFloat = Mathf.Max(Mathf.Log(resizeValue, 2f),1);
-                    int pqsRaiseAmountInteger = (int)Mathf.Round(pqsRaiseAmountFloat);
+                    pqsRaiseAmountInteger = (int)Mathf.Round(pqsRaiseAmountFloat);
                     pqsPopulationMult = Mathf.Abs(pqsRaiseAmountFloat - (pqsRaiseAmountInteger - 1));
                 }
                 else if (resizeValue < 1)
                 {
                     float resizeValueInverted = (1f / resizeValue);
                     pqsRaiseAmountFloat = Mathf.Log(resizeValueInverted, 2f) * (-1f);
-                    int pqsRaiseAmountInteger = (int)Mathf.Round(pqsRaiseAmountFloat);
+                    pqsRaiseAmountInteger = (int)Mathf.Round(pqsRaiseAmountFloat);
                     pqsPopulationMult = 1f / (2f * Mathf.Abs(pqsRaiseAmountInteger));
                 }
                 foreach (Scatter scatter in scatterBody.fastScatters)
@@ -125,6 +126,14 @@ namespace Parallax.LateCompatibility
 
                     // Adjust distribution noise frequency
                     scatter.noiseParams.frequency *= resizeValue;
+
+                    //Finally ensure we have the maxRenderableCap high enough, seems just multiplying by how many PQS values we raised is enough.
+                    if (pqsRaiseAmountInteger > 1)
+                    {
+                        scatter.optimizationParams.maxRenderableObjectsLOD0 *= pqsRaiseAmountInteger;
+                        scatter.optimizationParams.maxRenderableObjectsLOD1 *= pqsRaiseAmountInteger;
+                        scatter.optimizationParams.maxRenderableObjectsLOD2 *= pqsRaiseAmountInteger;
+                    }
                 }
             }
         }
